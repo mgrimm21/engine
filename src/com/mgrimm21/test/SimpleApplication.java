@@ -1,18 +1,22 @@
 package com.mgrimm21.test;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 import com.mgrimm21.engine.core.Application;
 import com.mgrimm21.engine.gameobject.Item;
 import com.mgrimm21.engine.gameobject.entity.Player;
 import com.mgrimm21.engine.gfx.Sprite;
+import com.mgrimm21.engine.input.Keyboard;
 import com.mgrimm21.engine.scene.Scene;
 import com.mgrimm21.engine.ui.Button;
 import com.mgrimm21.engine.ui.Menu;
+import com.mgrimm21.engine.ui.ProgressBar;
 import com.mgrimm21.engine.util.Language;
+import com.mgrimm21.engine.util.TickListener;
 import com.mgrimm21.engine.util.Utils;
 
-public class SimpleApplication extends Application{
+public class SimpleApplication extends Application implements TickListener{
 	
 	private Scene gameScene = new Scene();
 	private Scene mainMenu = new Scene();
@@ -25,6 +29,7 @@ public class SimpleApplication extends Application{
 	private Sprite normalNewGame = Sprite.createSprite("res/ui/normalNewGame.png");
 	private Sprite hoverNewGame = Sprite.createSprite("res/ui/hoverNewGame.png");
 	private Sprite clickedNewGame = Sprite.createSprite("res/ui/clickedNewGame.png");
+	private int[] val = new int[] {100};
 	private Button newGameButton = new Button(Utils.center(btnWidth, 20).x, btnStart, normalNewGame, hoverNewGame, clickedNewGame) {
 		@Override
 		public void onClick() {
@@ -64,8 +69,10 @@ public class SimpleApplication extends Application{
 			gameScene.remove(player);
 		};
 	};
+	private ProgressBar testBar = new ProgressBar(100, 100, val, 100, Sprite.createSprite("res/ui/healthBar.png"));
 	public SimpleApplication() {
 		super(800, 600, "Engine");
+		addListener(this);
 		addScene("Main Menu", mainMenu);
 		addScene("Game", gameScene);
 		setupMainMenu();
@@ -78,6 +85,7 @@ public class SimpleApplication extends Application{
 		gameScene.addMenu("Pause Menu", pauseMenu);
 		player = new Player(400, 200);
 		gameScene.add(player);
+		gameScene.add(testBar);
 	}
 	
 	private void setupMainMenu() {
@@ -92,6 +100,13 @@ public class SimpleApplication extends Application{
 		Application.instance.setLanguage(Language.EnglishUS);
 		Item item = new Item("engine.testItem");
 		System.out.println(item.getName());
+	}
+
+	@Override
+	public void tick() {
+		if (Keyboard.pressed(KeyEvent.VK_Q)) {
+			val[0]--;
+		}
 	}
 
 }
