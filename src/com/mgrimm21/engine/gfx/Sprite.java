@@ -32,5 +32,15 @@ public class Sprite {
 	public Vector2f getSize() {
 		return new Vector2f(image.getWidth(), image.getHeight());
 	}
+
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+	
+	
 	
 }
