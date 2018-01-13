@@ -13,6 +13,7 @@ import com.mgrimm21.engine.input.Keyboard;
 import com.mgrimm21.engine.input.Mouse;
 import com.mgrimm21.engine.scene.Scene;
 import com.mgrimm21.engine.systems.SceneManager;
+import com.mgrimm21.engine.systems.Tile;
 import com.mgrimm21.engine.util.Language;
 import com.mgrimm21.engine.util.RenderListener;
 import com.mgrimm21.engine.util.TickListener;
@@ -42,6 +43,7 @@ public class Application implements Runnable{
 	public Application(final int width, final int height, String title) {
 		instance = this;
 		AudioClip.init();
+		Tile.init();
 		window = new Window(width, height, title, this);
 		this.width = width;
 		this.height = height;

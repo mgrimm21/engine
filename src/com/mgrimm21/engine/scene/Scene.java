@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.mgrimm21.engine.core.Application;
 import com.mgrimm21.engine.gameobject.GameObject;
+import com.mgrimm21.engine.systems.Level;
 import com.mgrimm21.engine.ui.Menu;
 import com.mgrimm21.engine.ui.UIElement;
 
@@ -16,12 +17,15 @@ public class Scene {
 	private List<GameObject> objects = new ArrayList<GameObject>();
 	private List<UIElement> uiElements = new ArrayList<UIElement>();
 	private Map<String, Menu> menus = new HashMap<String, Menu>();
+	private Level level = null;
 	
 	public synchronized void tick() {
+		if (level!=null&&!Application.instance.paused)level.tick();
 		for (GameObject o: objects) {
 			if (Application.instance.paused && (o instanceof UIElement)){
 				o.tick();
 			}else if (!Application.instance.paused) {
+				
 				o.tick();
 			}
 		}
@@ -30,6 +34,7 @@ public class Scene {
 	}
 
 	public synchronized void render(Graphics2D g) {
+		if (level!=null)level.render(g);
 		for (GameObject o: objects) {
 			o.render(g);
 		}
@@ -59,6 +64,10 @@ public class Scene {
 	
 	public synchronized void removeMenu(String name) {
 		menus.remove(name);
+	}
+	
+	public void setMap(Level level) {
+		this.level = level;
 	}
 
 }

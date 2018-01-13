@@ -45,4 +45,16 @@ public class Utils {
         return "null";
 	}
 	
+	public static int clamp(int val, int min, int max) {
+		if (val < min) return min;
+		if (val > max) return max;
+		return val;
+	}
+	
+	public static float clamp(float val, float min, float max) {
+		if (val < min) return min;
+		if (val > max) return max;
+		return val;
+	}
+	
 }

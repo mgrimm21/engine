@@ -9,6 +9,7 @@ import com.mgrimm21.engine.gameobject.entity.Player;
 import com.mgrimm21.engine.gfx.Sprite;
 import com.mgrimm21.engine.input.Keyboard;
 import com.mgrimm21.engine.scene.Scene;
+import com.mgrimm21.engine.systems.Level;
 import com.mgrimm21.engine.ui.Button;
 import com.mgrimm21.engine.ui.Menu;
 import com.mgrimm21.engine.ui.ProgressBar;
@@ -20,6 +21,7 @@ public class SimpleApplication extends Application implements TickListener{
 	
 	private Scene gameScene = new Scene();
 	private Scene mainMenu = new Scene();
+	private Scene loadScene = new Scene();
 	private Player player;
 	private int btnStart = 100;
 	private int incr = 75;
@@ -30,6 +32,9 @@ public class SimpleApplication extends Application implements TickListener{
 	private Sprite hoverNewGame = Sprite.createSprite("res/ui/hoverNewGame.png");
 	private Sprite clickedNewGame = Sprite.createSprite("res/ui/clickedNewGame.png");
 	private int[] val = new int[] {100};
+	
+	Level level = Level.createRandomLevel(200, 200);
+	
 	private Button newGameButton = new Button(Utils.center(btnWidth, 20).x, btnStart, normalNewGame, hoverNewGame, clickedNewGame) {
 		@Override
 		public void onClick() {
@@ -75,6 +80,7 @@ public class SimpleApplication extends Application implements TickListener{
 		addListener(this);
 		addScene("Main Menu", mainMenu);
 		addScene("Game", gameScene);
+		addScene("Load", loadScene);
 		setupMainMenu();
 	}
 	
@@ -84,8 +90,9 @@ public class SimpleApplication extends Application implements TickListener{
 		pauseMenu.setPausesGame(true);
 		gameScene.addMenu("Pause Menu", pauseMenu);
 		player = new Player(400, 200);
-		gameScene.add(player);
-		gameScene.add(testBar);
+		//gameScene.add(player);
+		//gameScene.add(testBar);
+		gameScene.setMap(level);
 	}
 	
 	private void setupMainMenu() {
