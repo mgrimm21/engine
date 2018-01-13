@@ -2,19 +2,20 @@ package com.mgrimm21.engine.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Keyboard implements KeyListener{
 
-	private static boolean[] downKeys = new boolean[10000];
-	private static boolean[] newKeys = new boolean[10000];
-	
+	private static Set<Integer> pressedKeys = new TreeSet<Integer>();
+	private static Set<Integer> heldKeys = new TreeSet<Integer>();
 	public static boolean down(int key) {
-		return downKeys[key];
+		return heldKeys.contains(key);
 	}
 	
 	public static boolean pressed(int key) {
-		if (newKeys[key]) {
-			newKeys[key] = false;
+		if (heldKeys.contains(key) && !pressedKeys.contains(key)) {
+			pressedKeys.add(key);
 			return true;
 		}
 		return false;
@@ -22,14 +23,14 @@ public class Keyboard implements KeyListener{
 	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		downKeys[arg0.getKeyCode()] = true;
-		newKeys[arg0.getKeyCode()] = true;
+		if (heldKeys.contains(arg0.getKeyCode())) return;
+		heldKeys.add(arg0.getKeyCode());
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		downKeys[arg0.getKeyCode()] = false;
-		newKeys[arg0.getKeyCode()] = false;
+		heldKeys.remove(arg0.getKeyCode());
+		pressedKeys.remove(arg0.getKeyCode());
 	}
 
 	@Override
