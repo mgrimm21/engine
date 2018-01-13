@@ -9,8 +9,9 @@ import com.mgrimm21.engine.util.Vector2f;
 public class Player extends LivingEntity{
 	
 	private float speed = .33f;
-	private float health;
-
+	private float maxHealth = 100f;
+	private float health = maxHealth;
+	
 	public Player(float x, float y) {
 		super(x, y);
 		init();
@@ -38,6 +39,30 @@ public class Player extends LivingEntity{
 		if (right && !left) velocity.x = speed;
 		position.x += velocity.x;
 		position.y += velocity.y;
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
 }
